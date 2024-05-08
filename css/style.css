@@ -1,0 +1,38 @@
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.navbar-brand{
+    font-family: 'Righteous', cursive;
+}
+
+.link a{
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: #fff;
+}
+.container {
+    text-align: center;
+    background-image: url('TugasCRUD/img/bg/zbackground.jpg'); /* Path gambar latar belakang */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #ffffff; /* Warna teks */
+    padding: 20px; /* Jarak padding untuk konten teks */
+    border-radius: 10px; /* Bordes untuk memberi efek estetika */
+}
+
+.container h1 {
+    margin-bottom: 20px;
+}
+
+.container img {
+    display: block;
+    margin: 20px auto;
+    max-width: 200px;
+    background-color: rgba(255, 255, 255, 0.8); /* Warna latar belakang semi-transparan untuk gambar */
+    padding: 10px; /* Padding untuk gambar */
+    border-radius: 10px; /* Bordes untuk memberi efek estetika */
+}
+

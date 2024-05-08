@@ -1,9 +1,3 @@
-<?php
-
-require 'function.php';
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,40 +13,55 @@ require 'function.php';
     <!-- Own CSS -->
     <link rel="stylesheet" href="css/login.css">
 
-    <title>Login</title>
+    <title>Register</title>
+    <style>
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+       body {
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        </style>
 </head>
 
-<body>
+<body style="background-image: url('img/bg/gameportal.png');">
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">Game Portal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                </ul>
-            </div>
+    <header>
+        <img src="img/bg/logo12.png" alt="Logo GamePortal" style="width: 50px; height: auto; display: inline-block;">
+        <div style="display: inline-block; vertical-align: top;">
+            <h1 style="display: inline-block; margin: 0;">GamePortal</h1>
+            <p style="margin: 0;">Portal Data Pemain dan Game</p>
         </div>
-    </nav>
+    </header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40;">
+    <div class="container-fluid"> <!-- Tambahkan container-fluid di sini -->
+        <ul class="navbar-nav mx-auto"> <!-- Menambahkan kelas mx-auto -->
+            <li class="nav-item">
+                <a class="nav-link" href="home.html">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">LOGIN</a>
+            </li>
+        </ul>
+    </div>
+</nav>
     <!-- Close Navbar -->
 
     <div class="container">
         <div class="row my-5">
-            <div class="col-md-6 text-center login" style="background-image: url('img/bg/memphis-colorful.png');">
-                <h4 class="fw-bold">Register | Admin</h4>
+            <div class="col-md-6 text-center login" style="background-image: url('img/bg/gameportal2.png');">
+                <h4 class="fw-bold" style="color: White">Register | Admin</h4>
                 <!-- Ini Error jika tidak bisa regsiter -->
                 <?php if (isset($error)) : ?>
                     <?php echo '<script>alert("Username atau Password sudah digunakan!");</script>'; ?>
                 <?php endif; ?>
-                <form action="process_register.php" method="post">
+                <form action="process_register.html" method="post">
                     <div class="form-group user">
                         <input type="text" class="form-control w-50" placeholder="Masukkan Username" name="username" autocomplete="off" required>
                     </div>
