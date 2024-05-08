@@ -58,9 +58,8 @@
             <div class="col-md-6 text-center login" style="background-image: url('img/bg/gameportal2.png');">
                 <h4 class="fw-bold" style="color: White">Register | Admin</h4>
                 <!-- Ini Error jika tidak bisa regsiter -->
-                <?php if (isset($error)) : ?>
-                    <?php echo '<script>alert("Username atau Password sudah digunakan!");</script>'; ?>
-                <?php endif; ?>
+
+<script>alert("Username atau Password sudah digunakan!");</script>
                 <form action="process_register.html" method="post">
                     <div class="form-group user">
                         <input type="text" class="form-control w-50" placeholder="Masukkan Username" name="username" autocomplete="off" required>
