@@ -253,5 +253,31 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Fungsi Table
+            $('#data').DataTable({
+                dom: '<"row justify-content-between"l<"search-box"f>><"row justify-content-between"rtip>'
+            });
+            // Fungsi Table
+            // Fungsi Detail
+            $('.detail').click(function() {
+                var dataSiswa = $(this).attr("data-id");
+                $.ajax({
+                    url: "detail.html",
+                    method: "post",
+                    data: {
+                        dataSiswa,
+                        dataSiswa
+                    },
+                    success: function(data) {
+                        $('#detail-siswa').html(data);
+                        $('#detail').modal("show");
+                    }
+                });
+            });
+            // Fungsi Detail
+        });
+    </script>
 </body>
 </html>
