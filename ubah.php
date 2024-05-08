@@ -1,9 +1,38 @@
-<script>
-                alert('Data Pemain berhasil ditambahkan!');
-                document.location.href = 'game.html';
-            </script><script>
-                alert('Data game gagal ditambahkan!');
-            </script>
+<?php
+session_start();
+// Jika tidak bisa login maka balik ke login.php
+// jika masuk ke halaman ini melalui url, maka langsung menuju halaman login
+if (!isset($_SESSION['login'])) {
+    header('location:login.php');
+    exit;
+}
+
+// Memanggil atau membutuhkan file function.php
+require 'function.php';
+
+// Mengambil data dari nip dengan fungsi get
+$nip = $_GET['nip'];
+
+// Mengambil data dari table pemain dari nip
+$siswa = query("SELECT * FROM pemain WHERE nip = $nip")[0];
+
+// Jika fungsi ubah ljika data terubah, maka munculkan alert dibawah
+if (isset($_POST['ubah'])) {
+    if (ubah_pemain($_POST) > 0) {
+        echo "<script>
+                alert('Data siswa berhasil diubah!');
+                document.location.href = 'pemain    .php';
+            </script>";
+    } else {
+        // Jika fungsi ubah jika data tidak terubah, maka munculkan alert dibawah
+        echo "<script>
+                alert('Data pemain gagal diubah!');
+            </script>";
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,57 +131,59 @@
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="user.html"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
-        <li><a href="pemain.html"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
-        <li><a href="game.html"><i class="bi bi-controller"></i> <span>Game</span></a></li>
-        <li><a href="about.html"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
-        <li><a href="logout.html"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
+        <li><a href="user.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
+        <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
+        <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
+        <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
     </ul>
 </div>
+
     </nav>
     <!-- Close Navbar -->
 
     <!-- Container -->
-    
-    <div class="container" style="padding-top: 80px;">
+    <div class="container">
         <div class="row my-2">
             <div class="col-md">
-                <h3 class="fw-bold text-uppercase" style="color:Black"><i class="bi bi-person-plus-fill" style="color:Black"></i>&nbsp;Tambah Data Game Portal</h3>
+                <h3 class="fw-bold text-uppercase" style="color:black;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah Data Pemain</h3>
             </div>
             <hr>
         </div>
         <div class="row my-2">
             <div class="col-md">
                 <form action="" method="post" enctype="multipart/form-data">
-                    <div class="mb-3" >
-                        <label for="nama_game" class="form-label" style="padding-right: 1000px; color:black;">Nama Game</label>
-                        <input type="text" class="form-control w-50" id="nis" placeholder="Masukkan Nama Game" min="1" name="nama_game" autocomplete="off" required>
+                    <div class="mb-3">
+                        <label for="nip" class="form-label" style="padding-right: 10000px; color:black;">nip</label>
+                        <input type="number" class="form-control w-50" id="nip" value="<?= $siswa['nip']; ?>" name="nip" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <label for="deskripsi" class="form-label" style="padding-right: 980px; color:black;">Nama Pemain</label>
-                        <input type="text" class="form-control form-control-md w-50" id="deskripsi" placeholder="Masukkan deskripsi" name="deskripsi" autocomplete="off" required>
+                        <label for="nama" class="form-label" style="padding-right: 10000px; color:black;">Nama</label>
+                        <input type="text" class="form-control w-50" id="nama" value="<?= $siswa['nama']; ?>" name="nama" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal" class="form-label" style="padding-right: 10000px; color:black;">Tanggal</label>
-                        <input type="date" class="form-control w-50" id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" autocomplete="off" required>
+                        <label for="tier" class="form-label" style="padding-right: 10000px; color:black;">tier</label>
+                        <input type="text" class="form-control w-50" id="tier" value="<?= $siswa['tier']; ?>" name="tier" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <label for="platform" class="form-label" style="padding-right: 10000px; color:black;">platform</label>
-                        <input type="text" class="form-control w-50" id="platform" placeholder="Masukkan Platform" name="platform" autocomplete="off" required>
+                        <label for="game_main" class="form-label" style="padding-right: 10000px; color:black;">game_main</label>
+                        <input type="text" class="form-control w-50" id="game_main" value="<?= $siswa['game_main']; ?>" name="game_main" autocomplete="off" required>
+                    </div>
                     </div>
                     <div class="mb-3">
-                        <label for="ulasan" class="form-label" style="padding-right: 10000px; color:black;">Ulasan</label>
-                        <input type="text" class="form-control w-50" id="ulasan" placeholder="Masukkan Ulasan Anda" name="ulasan" autocomplete="off" required>
+                        <label for="device" class="form-label" style="padding-right: 10000px; color:black;">device</label>
+                        <input type="text" class="form-control w-50" id="device" value="<?= $siswa['device']; ?>" name="device" autocomplete="off" required>
                     </div>
-                    <a href="game.html" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
+                    <hr>
+                    <a href="index.php" class="btn btn-secondary">Kembali</a>
+                    <button type="submit" class="btn btn-warning" name="ubah">Ubah</button>
                 </form>
             </div>
         </div>
     </div>
     <!-- Close Container -->
 
-<!-- Java Script Sidebar -->
+    <!-- javascript -->
     <script>
         
 function toggleSidebar() {

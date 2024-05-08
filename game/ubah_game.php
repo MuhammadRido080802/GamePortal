@@ -1,5 +1,41 @@
+<?php
+session_start();
+// Jika tidak bisa login maka balik ke login.php
+// jika masuk ke halaman ini melalui url, maka langsung menuju halaman login
+if (!isset($_SESSION['login'])) {
+    header('location:login.php');
+    exit;
+}
+
+// Memanggil atau membutuhkan file function.php
+require '../function.php';
+
+// Mengambil data tanggal dari parameter URL
+$tanggal = isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; // Periksa apakah $_GET['tanggal'] ada sebelum menggunakannya
+
+// Mengambil data game berdasarkan tanggal
+$siswa = query("SELECT * FROM game WHERE tanggal = '$tanggal'");
+
+// Jika fungsi ubah jika data terubah, maka munculkan alert dibawah
+if (isset($_POST['ubah'])) {
+    if (ubah_game($_POST) > 0) {
+        echo "<script>
+                alert('Data Game berhasil diubah!');
+                document.location.href = 'game.php';
+            </script>";
+    } else {
+        // Jika fungsi ubah jika data tidak terubah, maka munculkan alert dibawah
+        echo "<script>
+                alert('Data Game gagal diubah!');
+            </script>";
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,14 +51,16 @@
     <!-- Own CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Ubah Data Pemain</title>
+    <title>Ubah Game</title>
 </head>
+
 <style>
     body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
+
 .sidebar {
     width: 240px;
     height: 100%;
@@ -34,20 +72,24 @@
     transition: left 0.3s ease;
     z-index: 1000;
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 .sidebar ul li {
     padding: 10px 20px;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .sidebar ul li:hover {
     background-color: #303030;
 }
+
 .menu-icon {
     color: #fff;
     cursor: pointer;
@@ -57,6 +99,7 @@
     left: 20px;
     z-index: 2000;
 }
+
 .content {
     margin-left: 260px; /* Adjust as per your requirement */
     padding: 20px;
@@ -65,6 +108,7 @@
     display: flex;
     align-items: center; /* Mengatur konten secara vertikal dalam div */
 }
+
 .game-portal-logo {
     width: 1em; /* Mengatur lebar gambar menjadi setara dengan lebar teks */
     height: auto; /* Agar gambar tetap proporsional */
@@ -75,6 +119,7 @@
         text-align: left;
     }
 </style>
+
 <body>
     <span id="menuIcon" class="menu-icon" onclick="toggleSidebar()">&#9776; GAME PORTAL <img src="img/bg/logo12.png" alt="Game Portal" class="game-portal-logo"></span>
     <!-- Navbar -->
@@ -86,15 +131,17 @@
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="user.html"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
-        <li><a href="pemain.html"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
-        <li><a href="game.html"><i class="bi bi-controller"></i> <span>Game</span></a></li>
-        <li><a href="about.html"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
-        <li><a href="logout.html"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
+        <li><a href="user.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
+        <li><a href="game/game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
+        <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
+        <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
     </ul>
 </div>
+
     </nav>
     <!-- Close Navbar -->
+
     <!-- Container -->
     <div class="container">
         <div class="row my-2">
@@ -107,34 +154,35 @@
             <div class="col-md">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="nip" class="form-label" style="padding-right: 10000px; color:black;">nip</label>
-                        <input type="number" class="form-control w-50" id="nip" value="" name="nip" autocomplete="off" required>
+                        <label for="tanggal" class="form-label" style="padding-right: 10000px; color:black;">tanggal</label>
+                        <input type="date" class="form-control w-50" id="tanggal" value="<?= $siswa['tanggal']; ?>" name="tanggal" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="nama" class="form-label" style="padding-right: 10000px; color:black;">Nama</label>
-                        <input type="text" class="form-control w-50" id="nama" value="" name="nama" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="nama" value="<?= $siswa['nama']; ?>" name="nama" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="tier" class="form-label" style="padding-right: 10000px; color:black;">tier</label>
-                        <input type="text" class="form-control w-50" id="tier" value="" name="tier" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="tier" value="<?= $siswa['tier']; ?>" name="tier" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="game_main" class="form-label" style="padding-right: 10000px; color:black;">game_main</label>
-                        <input type="text" class="form-control w-50" id="game_main" value="" name="game_main" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="game_main" value="<?= $siswa['game_main']; ?>" name="game_main" autocomplete="off" required>
                     </div>
                     </div>
                     <div class="mb-3">
                         <label for="device" class="form-label" style="padding-right: 10000px; color:black;">device</label>
-                        <input type="text" class="form-control w-50" id="device" value="" name="device" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="device" value="<?= $siswa['device']; ?>" name="device" autocomplete="off" required>
                     </div>
                     <hr>
-                    <a href="pemain.html" class="btn btn-secondary">Kembali</a>
+                    <a href="index.php" class="btn btn-secondary">Kembali</a>
                     <button type="submit" class="btn btn-warning" name="ubah">Ubah</button>
                 </form>
             </div>
         </div>
     </div>
     <!-- Close Container -->
+
     <!-- javascript -->
     <script>
         

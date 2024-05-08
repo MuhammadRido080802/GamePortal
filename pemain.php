@@ -1,3 +1,16 @@
+<?php
+session_start();
+// Jika tidak bisa login maka balik ke login.php
+// jika masuk ke halaman ini melalui url, maka langsung menuju halaman login
+if (!isset($_SESSION['login'])) {
+    header('location:login.php');
+    exit;
+}
+// Memanggil atau membutuhkan file function.php
+require 'function.php';
+// Menampilkan semua data dari table pemain berdasarkan nim secara Descending
+$siswa = query("SELECT * FROM pemain ORDER BY nip DESC");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,9 +102,6 @@ body {
             align-items: center; /* Mengatur elemen vertikal di tengah */
             margin-bottom: 10px; /* Menambahkan sedikit jarak bawah */
         }
-        .dataTables_length {
-    display: none; /* Menempatkan "Show entries" di sebelah kiri */
-}
     /* Tambahkan CSS baru di sini */
     .dataTables_info {
         color: black; /* Mengatur warna teks menjadi hitam */
@@ -101,9 +111,9 @@ body {
     <title>GAME PORTAL</title>
 </head>
 <body>
-<span id="menuIcon" class="menu-icon" onclick="toggleSidebar()">&#9776; GAME PORTAL <img src="img/bg/logo12.png" alt="Game Portal" class="game-portal-logo"></span>
+    <span id="menuIcon" class="menu-icon" onclick="toggleSidebar()">&#9776; GAME PORTAL <img src="img/bg/logo12.png" alt="Game Portal" class="game-portal-logo"></span>
     <!-- Navbar -->
-    <nav  class="navbar navbar-expand-lg navbar-dark bg-dark text-uppercase fixed-top" style="padding-bottom: 2px; padding-top: 30px;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-uppercase fixed-top">
         <div class="container">
             <!-- Ikon menu -->
             <div class="sidebar" id="sidebar">
@@ -111,23 +121,29 @@ body {
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="home.html"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
-        <li><a href="pemain.html"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
-        <li><a href="game.html"><i class="bi bi-controller"></i> <span>Game</span></a></li>
-        <li><a href="about.html"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
-        <li><a href="logout.html"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
+        <li><a href="home.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
+        <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
+        <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
+        <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
     </ul>
 </div>
     </nav>
-          <!-- Close Navbar -->
-    <!-- Container -->
-    <div class="container" style="padding-top: 80px;">
+        <!-- Close Navbar -->
+    <!-- Container -->   
+    <div class="container">
+    <div class="row my-2">
+        <div class="col-md">
+            <h3 class="text-center fw-bold text-uppercase" style="color: red;">Data pemain</h3>
+            <hr>
+        </div>
+    </div>
     <div class="row my-2 justify-content-end"> 
         <div class="col-md-auto"> 
-            <a href="addData_game.html" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i>&nbsp;Tambah Data</a>
-            <!-- <a href="export.html" target="_blank" class="btn btn-success ms-1"><i class="bi bi-file-earmark-spreadsheet-fill"></i>&nbsp;Ekspor ke Excel</a> -->
+            <a href="addData.php" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i>&nbsp;Tambah Data</a>
+            <!-- <a href="export.php" target="_blank" class="btn btn-success ms-1"><i class="bi bi-file-earmark-spreadsheet-fill"></i>&nbsp;Ekspor ke Excel</a> -->
         </div>
-    </div>    
+    </div>
         <div class="container-fluid">
     <div class="row my-3">
         <div class="col-md">
@@ -135,51 +151,33 @@ body {
                 <thead class="table-dark">
                     <tr>
                         <th>No.</th>
-                        <th>Nama Game</th>
-                        <th>Nama Pemain</th>
-                        <th>Tanggal</th>
-                        <th>Platform</th>
-                        <th>Ulasan Pengguna</th>
+                        <th>Nama</th>
+                        <th>NIP</th>
+                        <th>Tier</th>
+                        <th>Game yang Di Mainkan</th>
+                        <th>Device</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>				
-                        <td>1</td>
-                        <td>Mobile Legend</td>
-                        <td>Muhammad</td>
-                        <td>2024-04-24</td>
-                        <td>Mobile</td>
-                        <td>Game yang sangat seru</td>
-                        <td>
-                            <a href="ubahgame.html" class="btn btn-warning btn-sm" style="font-weight: 600;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah</a> |
-                            <a href="hapusgame.html" class="btn btn-danger btn-sm delete-game" data-nama="Muhammad" style="font-weight: 600;"><i class="bi bi-trash-fill"></i>&nbsp;Hapus</a>
-                        </td>
-                    </tr>				
-                    <tr>
-                        <td>2</td>
-                        <td>PUBG Mobile</td>
-                        <td>Rido</td>
-                        <td>2024-04-12</td>
-                        <td>PC</td>
-                        <td>Butuh ketangkasan dan skill yang akurat dalam bermain</td>
-                        <td>
-                            <a href="ubahgame.html" class="btn btn-warning btn-sm" style="font-weight: 600;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah</a> |
-                            <a href="hapusgame.htm" class="btn btn-danger btn-sm delete-game" data-nama="Rido" style="font-weight: 600;"><i class="bi bi-trash-fill"></i>&nbsp;Hapus</a>
-                        </td>
-                    </tr>
-                    <tr>	 				
-                        <td>3</td>
-                        <td>PUBG Mobile</td>
-                        <td>Aldafa</td>
-                        <td>2024-04-11</td>
-                        <td>Mobile</td>
-                        <td>Sangat menguji adrenaline</td>
-                        <td>
-                            <a href="ubahgame.html" class="btn btn-warning btn-sm" style="font-weight: 600;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah</a> |
-                            <a href="hapusfame.html" class="btn btn-danger btn-sm delete-game" data-nama="Aldafa" style="font-weight: 600;"><i class="bi bi-trash-fill"></i>&nbsp;Hapus</a>
-                        </td>
-                    </tr>
+                    <?php $no = 1; ?>
+                    <?php foreach ($siswa as $row) : ?>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= $row['nama']; ?></td>
+                            <td><?= $row['nip']; ?></td>
+                            <td><?= $row['tier']; ?></td>
+                            <td><?= $row['game_main']; ?></td>
+                            <td><?= $row['device']; ?></td>                          
+                            <td>
+                                <button class="btn btn-success btn-sm text-white detail" data-id="<?= $row['nip']; ?>" style="font-weight: 600;"><i class="bi bi-info-circle-fill"></i>&nbsp;Detail</button> |
+
+                                <a href="ubah.php?nip=<?= $row['nip']; ?>" class="btn btn-warning btn-sm" style="font-weight: 600;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah</a> |
+
+                                <a href="hapus.php?nip=<?= $row['nip']; ?>" class="btn btn-danger btn-sm" style="font-weight: 600;" onclick="return confirm('Apakah anda yakin ingin menghapus data <?= $row['nama']; ?> ?');"><i class="bi bi-trash-fill"></i>&nbsp;Hapus</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -188,8 +186,8 @@ body {
     <!-- Close Container -->
     <!-- Overlay untuk menutup sidebar saat mengklik di luar menu -->
     <div class="overlay" onclick="closeNav()" id="myOverlay"></div>
-    <!-- JavaScript untuk membuka dan menutup sidebar -->
-    <script>        
+    <!-- JavaScript untuk membuka dan menutup sidebar -->  
+    <script>      
 function toggleSidebar() {
     var sidebar = document.getElementById('sidebar');
     var menuIcon = document.getElementById('menuIcon');
@@ -212,6 +210,20 @@ function toggleSidebar() {
             document.getElementById("myOverlay").classList.remove("show");
         }
     </script>
+    <!-- Modal Detail Data -->
+    <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="detail" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="color: black"class="modal-title fw-bold text-uppercase" id="detail">Detail Data Pemain</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center" id="detail-siswa">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Close Modal Detail Data -->
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <!-- Data Tables -->
@@ -227,20 +239,21 @@ $(document).ready(function() {
     // Fungsi Table
     // Fungsi Detail
     $('.detail').click(function() {
-    var dataGame = $(this).attr("data-id"); // Mengubah variabel dataSiswa menjadi dataGame
-    $.ajax({
-        url: "detailgame.html",
-        method: "post",
-        data: {
-            dataGame, // Mengubah dataSiswa menjadi dataGame
-            dataGame // Mengubah dataSiswa menjadi dataGame
-        },
-        success: function(data) {
-            $('#detail-game').html(data);
-            $('#detail').modal("show");
-        }
+        var dataSiswa = $(this).attr("data-id");
+        $.ajax({
+            url: "detail.php",
+            method: "post",
+            data: {
+                dataSiswa,
+                dataSiswa
+            },
+            success: function(data) {
+                $('#detail-siswa').html(data);
+                $('#detail').modal("show");
+            }
+        });
     });
-}); 
+    // Fungsi Detail
 });
     </script>
 </body>

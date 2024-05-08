@@ -79,9 +79,9 @@
     </div>
 </header>
 <nav>
-    <a href="home.html">HOME</a>
-    <a href="about.html">ABOUT</a>
-    <a href="login.html">LOGIN</a>
+    <a href="home.php">HOME</a>
+    <a href="about.php">ABOUT</a>
+    <a href="login.php">LOGIN</a>
     </nav>
 <div class="container" >
     <h1>Tentang Game Portal</h1>

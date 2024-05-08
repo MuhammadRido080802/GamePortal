@@ -1,5 +1,35 @@
+<?php
+session_start();
+// Jika tidak bisa login maka balik ke login.php
+// jika masuk ke halaman ini melalui url, maka langsung menuju halaman login
+if (!isset($_SESSION['login'])) {
+    header('location:login.php');
+    exit;
+}
+
+// Memanggil atau membutuhkan file function.php
+require 'function.php';
+
+// Jika fungsi tambah jika data tersimpan, maka munculkan alert dibawah
+if (isset($_POST['simpan'])) {
+    if (tambah_game($_POST)) {
+        echo "<script>
+                alert('Data Pemain berhasil ditambahkan!');
+                document.location.href = 'game.php';
+            </script>";
+    } else {
+        // Jika fungsi tambah jika data tidak tersimpan, maka munculkan alert dibawah
+        echo "<script>
+                alert('Data game gagal ditambahkan!');
+            </script>";
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,12 +47,14 @@
 
     <title>Tambah Data</title>
 </head>
+
 <style>
     body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
+
 .sidebar {
     width: 240px;
     height: 100%;
@@ -34,20 +66,24 @@
     transition: left 0.3s ease;
     z-index: 1000;
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 .sidebar ul li {
     padding: 10px 20px;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .sidebar ul li:hover {
     background-color: #303030;
 }
+
 .menu-icon {
     color: #fff;
     cursor: pointer;
@@ -57,6 +93,7 @@
     left: 20px;
     z-index: 2000;
 }
+
 .content {
     margin-left: 260px; /* Adjust as per your requirement */
     padding: 20px;
@@ -65,6 +102,7 @@
     display: flex;
     align-items: center; /* Mengatur konten secara vertikal dalam div */
 }
+
 .game-portal-logo {
     width: 1em; /* Mengatur lebar gambar menjadi setara dengan lebar teks */
     height: auto; /* Agar gambar tetap proporsional */
@@ -75,6 +113,7 @@
         text-align: left;
     }
 </style>
+
 <body>
     <span id="menuIcon" class="menu-icon" onclick="toggleSidebar()">&#9776; GAME PORTAL <img src="img/bg/logo12.png" alt="Game Portal" class="game-portal-logo"></span>
     <!-- Navbar -->
@@ -86,58 +125,60 @@
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="user.html"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
-        <li><a href="pemain.html"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
-        <li><a href="game.html"><i class="bi bi-controller"></i> <span>Game</span></a></li>
-        <li><a href="about.html"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
-        <li><a href="logout.html"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
+        <li><a href="user.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
+        <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
+        <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
+        <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
     </ul>
 </div>
     </nav>
     <!-- Close Navbar -->
-   <!-- Container -->
-   <div class="container">
+
+    <!-- Container -->
+    
+    <div class="container" style="padding-top: 80px;">
         <div class="row my-2">
             <div class="col-md">
-                <h3 class="fw-bold text-uppercase" style="color:black;"><i class="bi bi-pencil-square"></i>&nbsp;Ubah Data Pemain</h3>
+                <h3 class="fw-bold text-uppercase" style="color:Black"><i class="bi bi-person-plus-fill" style="color:Black"></i>&nbsp;Tambah Data Game Portal</h3>
             </div>
             <hr>
         </div>
         <div class="row my-2">
             <div class="col-md">
-                <form action="" method="post" enctype="multipart/form-data">                  
-                    <div class="mb-3">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="mb-3" >
                         <label for="nama_game" class="form-label" style="padding-right: 1000px; color:black;">Nama Game</label>
-                        <input type="text" class="form-control w-50" id="nama_game" value="" name="nama_game" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="nis" placeholder="Masukkan Nama Game" min="1" name="nama_game" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="deskripsi" class="form-label" style="padding-right: 980px; color:black;">Nama Pemain</label>
-                        <input type="text" class="form-control w-50" id="deskripsi" value="" name="deskripsi" autocomplete="off" required>
+                        <input type="text" class="form-control form-control-md w-50" id="deskripsi" placeholder="Masukkan deskripsi" name="deskripsi" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal" class="form-label" style="padding-right: 10000px; color:black;">tanggal</label>
-                        <input type="date" class="form-control w-50" id="tanggal" value="" name="tanggal" autocomplete="off" required>
+                        <label for="tanggal" class="form-label" style="padding-right: 10000px; color:black;">Tanggal</label>
+                        <input type="date" class="form-control w-50" id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <label for="platform" class="form-label" style="padding-right: 10000px; color:black;">Platform</label>
-                        <input type="text" class="form-control w-50" id="platform" value="" name="platform" autocomplete="off" required>
-                    </div>
+                        <label for="platform" class="form-label" style="padding-right: 10000px; color:black;">platform</label>
+                        <input type="text" class="form-control w-50" id="platform" placeholder="Masukkan Platform" name="platform" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="ulasan" class="form-label" style="padding-right: 10000px; color:black;">Ulasan</label>
-                        <input type="text" class="form-control w-50" id="ulasan" value="" name="ulasan" autocomplete="off" required>
+                        <input type="text" class="form-control w-50" id="ulasan" placeholder="Masukkan Ulasan Anda" name="ulasan" autocomplete="off" required>
                     </div>
-                    <hr>
-                    <a href="game.html" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-warning" name="ubah">Ubah</button>
+                    <a href="game.php" class="btn btn-secondary">Kembali</a>
+                    <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
                 </form>
             </div>
         </div>
     </div>
     <!-- Close Container -->
-    <!-- javascript -->
+
+<!-- Java Script Sidebar -->
     <script>
-    function toggleSidebar() {
+        
+function toggleSidebar() {
     var sidebar = document.getElementById('sidebar');
     var menuIcon = document.getElementById('menuIcon');
 
@@ -147,12 +188,14 @@
         sidebar.style.left = '-240px';
     }
 }
+
         function openNav() {
             document.getElementById("mySidebar").style.width = "250px";
             document.getElementsByClassName("main-content")[0].style.marginLeft = "250px";
             document.getElementById("menuIcon").style.display = "none";
             document.getElementById("myOverlay").classList.add("show");
         }
+
         function closeNav() {
             document.getElementById("mySidebar").style.width = "0";
             document.getElementsByClassName("main-content")[0].style.marginLeft = "0";
@@ -160,5 +203,7 @@
             document.getElementById("myOverlay").classList.remove("show");
         }
     </script>
+
 </body>
+
 </html>

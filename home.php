@@ -15,15 +15,18 @@
     margin: 0 auto;
     max-width: 600px;
 }
+
 .container h1,
 .container h2,
 .container p {
     text-align: center;
 }
+
 .container ul {
     padding-left: 20px;
     margin-bottom: 20px;
 }
+
 .container ul li {
     margin-bottom: 10px;
 }
@@ -75,25 +78,32 @@
         <p style="margin: 0;">Portal Data Pemain dan Game</p>
     </div>
 </header>
+
     <nav>
-    <a href="home.html">HOME</a>
-    <a href="about.html">ABOUT</a>
-    <a href="login.html">LOGIN</a>
+    <a href="home.php">HOME</a>
+    <a href="about.php">ABOUT</a>
+    <a href="login.php">LOGIN</a>
     </nav>
     <div class="container" >
         <h1>Selamat Datang di GamePortal</h1>
         <p style="text-align:center;">Temukan informasi terbaru tentang pemain dan game favorit Anda!</p>
         <h2 style="text-align:center;">Tentang Kami</h2>
     <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 20px;">
-    <div style="margin: 0 auto; display: block;">     
+    <div style="margin: 0 auto; display: block;">
+        
         <h3>Game Portal</h3>
         <p>Platform yang menyediakan informasi terbaru tentang pemain dan game favorit Anda. Dengan GamePortal, Anda dapat menemukan data pemain dari berbagai permainan, ulasan game, berita terkini, dan masih banyak lagi.</p>
         <h4>Informasi</h4>
         <p>Masukkan data lengkap Anda, termasuk statistik kinerja, game yang sering dimainkan, dan prestasi yang telah diraih. Selain itu, jelajahi beragam game yang tersedia beserta ulasan dan skor pemain lainnya.</p>
     </div>
-</div>  
+</div>
+    
 <img src="img/bg/logo11.png" alt="Header" style="max-width: 30%; height: auto; margin: 0 auto; display: block;">
+
 <p style="text-align: center; font-weight: bold;">&copy; 2018071 Muhammad Rido Aldafa Prasetya</p>
     </section>
+
+
+
 </body>
 </html>
