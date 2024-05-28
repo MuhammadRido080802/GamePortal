@@ -12,7 +12,7 @@ require 'function.php';
 
 // Jika fungsi tambah jika data tersimpan, maka munculkan alert dibawah
 if (isset($_POST['simpan'])) {
-    if (tambah_mahasiswa($_POST)) {
+    if (tambah_pemain($_POST)) {
         echo "<script>
                 alert('Data Pemain berhasil ditambahkan!');
                 document.location.href = 'pemain.php';

@@ -1,7 +1,5 @@
 <?php
-
 require 'function.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +31,6 @@ require 'function.php';
         }
         </style>
 </head>
-
 <body style="background-image: url('img/bg/gameportal.png');">
 
     <!-- Navbar -->

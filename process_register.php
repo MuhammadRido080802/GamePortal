@@ -1,10 +1,7 @@
 <?php
-
 require 'function.php';
-
 $username = $_POST['username'];
 $password = md5($_POST['password']);
-
 
 //pengecekan kelengkapan data
 if (empty($username) || empty($password)) {

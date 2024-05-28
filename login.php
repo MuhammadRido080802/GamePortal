@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
     $password = md5($_POST['password']);
     // password menggunakan md5
     // mengambil data
-    $result = mysqli_query(koneksi, "SELECT * FROM admin WHERE username = '$username'");
+    $result = mysqli_query($koneksi, "SELECT * FROM admin WHERE username = '$username'");
     $cek = mysqli_num_rows($result);
     if ($cek > 0) {
         $_SESSION['login'] = true;

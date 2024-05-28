@@ -6,10 +6,8 @@ if (!isset($_SESSION['login'])) {
     header('location:login.php');
     exit;
 }
-
 // Memanggil atau membutuhkan file function.php
 require 'function.php';
-
 // Jika fungsi tambah jika data tersimpan, maka munculkan alert dibawah
 if (isset($_POST['simpan'])) {
     if (tambah_game($_POST)) {
@@ -23,10 +21,7 @@ if (isset($_POST['simpan'])) {
                 alert('Data game gagal ditambahkan!');
             </script>";
     }
-}
-
-
-?>
+}?>
 <!DOCTYPE html>
 <html lang="en">
 

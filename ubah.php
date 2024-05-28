@@ -51,7 +51,7 @@ if (isset($_POST['ubah'])) {
     <!-- Own CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Tambah Data</title>
+    <title>Ubah Data</title>
 </head>
 
 <style>
