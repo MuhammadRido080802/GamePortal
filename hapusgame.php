@@ -8,7 +8,6 @@ if (!isset($_SESSION['login'])) {
 }
 // Memanggil atau membutuhkan file function.php
 require 'function.php';
-
 // Mengambil data dari nis dengan fungsi get
 $nama_game = $_GET['nama_game'];
 

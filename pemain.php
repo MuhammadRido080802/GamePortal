@@ -121,7 +121,7 @@ body {
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="home.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="admin.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
         <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
         <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
         <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
@@ -141,7 +141,7 @@ body {
     <div class="row my-2 justify-content-end"> 
         <div class="col-md-auto"> 
             <a href="addData.php" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i>&nbsp;Tambah Data</a>
-            <!-- <a href="export.php" target="_blank" class="btn btn-success ms-1"><i class="bi bi-file-earmark-spreadsheet-fill"></i>&nbsp;Ekspor ke Excel</a> -->
+            <a href="export.php" target="_blank" class="btn btn-success ms-1"><i class="bi bi-file-earmark-spreadsheet-fill"></i>&nbsp;Ekspor ke Excel</a>
         </div>
     </div>
         <div class="container-fluid">

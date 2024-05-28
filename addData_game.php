@@ -120,7 +120,7 @@ if (isset($_POST['simpan'])) {
         <li></li>
         <li></li>
         <hr></hr>
-        <li><a href="user.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+        <li><a href="admin.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
         <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
         <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
         <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
@@ -169,7 +169,6 @@ if (isset($_POST['simpan'])) {
         </div>
     </div>
     <!-- Close Container -->
-
 <!-- Java Script Sidebar -->
     <script>
         

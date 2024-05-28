@@ -12,15 +12,22 @@ if (!isset($_SESSION['login'])) {
 }
 
 // Periksa apakah data pengguna telah disimpan dalam session
-if (isset($_SESSION['username'])) {
-    // Simpan nama pengguna dalam variabel
-    $username = $_SESSION['username'];
-} else {
-    // Jika tidak ada data pengguna dalam session, berikan nilai default pada variabel
-    $username = 'Tidak Diketahui';
-}
-?>
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Tidak Diketahui';
 
+// Mengambil jumlah data dari tabel pemain
+$jumlahPemain = count(query("SELECT * FROM pemain"));
+
+// Mengambil jumlah data dari tabel game
+$jumlahGame = count(query("SELECT * FROM game"));
+
+// Mendapatkan data untuk grafik (contoh)
+$dataGrafik = [
+    ['label' => 'Pemain', 'value' => $jumlahPemain],
+    ['label' => 'Game', 'value' => $jumlahGame]
+];
+// Mengkonversi data ke format JSON untuk digunakan dalam grafik JavaScript
+$dataGrafikJSON = json_encode($dataGrafik);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,11 +45,17 @@ if (isset($_SESSION['username'])) {
     <!-- Own CSS -->
     <link rel="stylesheet" href="css/style.css">
     <!-- CSS untuk Sidebar -->
+    <!-- ApexCharts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            color: black; /* Mengatur warna teks menjadi hitam */
         }
 
         .sidebar {
@@ -125,6 +138,29 @@ if (isset($_SESSION['username'])) {
             color: black; /* Mengatur warna teks menjadi hitam */
             text-align: left; /* Mengatur tampilan teks menjadi rata kiri */
         }
+
+        /* Widget Style */
+        .widget {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa; /* Warna background widget */
+        }
+
+        .widget-title {
+            color: black; /* Warna teks judul widget */
+            font-weight: bold;
+        }
+
+        .widget-data {
+            font-size: 24px;
+            color: black; /* Warna teks data widget */
+        }
+
+        .home-content h2, .home-content h4 {
+            color: black; /* Warna teks untuk greeting dan datetime */
+            text-align: left; /* Rata kiri */
+        }
     </style>
 </head>
 <body>
@@ -138,7 +174,7 @@ if (isset($_SESSION['username'])) {
                 <li></li>
                 <li></li>
                 <hr></hr>
-                <li><a href="home.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
+                <li><a href="admin.php"><i class="bi bi-house-door"></i> <span>Home</span></a></li>
                 <li><a href="pemain.php"><i class="bi bi-joystick"></i> <span>Pemain</span></a></li>
                 <li><a href="game.php"><i class="bi bi-controller"></i> <span>Game</span></a></li>
                 <li><a href="about.php"><i class="bi bi-info-circle"></i> <span>About</span></a></li>
@@ -150,87 +186,118 @@ if (isset($_SESSION['username'])) {
 <!-- Close Navbar -->
 <!-- Container -->
 <div class="container" style="padding-top: 80px;">
-    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card widget">
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <i class="bi bi-person-fill" style="font-size: 5rem; margin-right: 10px; color: #FFB400;"></i>
+                    <div>
+                        <h5 class="card-title widget-title">Jumlah Data Pemain</h5>
+                        <p class="card-text widget-data"><?= $jumlahPemain ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card widget">
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <i class="bi bi-controller" style="font-size: 5rem; margin-right: 10px; color: #00E396"></i>
+                    <div>
+                        <h5 class="card-title widget-title">Jumlah Data Game</h5>
+                        <p class="card-text widget-data"><?= $jumlahGame ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card widget">
+                <div class="card-body">
+                    <h5 class="card-title widget-title">Grafik Data</h5>
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="home-content">
-    <h2 id="greeting"></h2>
-    <h4 id="datetime"></h4>
 </div>
-
-<script>
-    // Mengambil nilai username dari elemen dengan id 'username' dan menetapkannya ke dalam variabel JavaScript
-    var username = "<?php echo htmlspecialchars($_SESSION['username']); ?>";
-
-    function setGreeting() {
-        const hours = new Date().getHours();
-        let greeting;
-        if (hours < 4) {
-            greeting = 'Selamat Malam';
-        } else if (hours < 10) {
-            greeting = 'Selamat Pagi';
-        } else if (hours < 15) {
-            greeting = 'Selamat Siang';
-        } else if (hours < 19) {
-            greeting = 'Selamat Sore';
-        } else {
-            greeting = 'Selamat Malam';
-        }
-        // Menampilkan salam beserta nama pengguna dalam satu baris
-        document.getElementById('greeting').innerText = greeting + ', ' + username;
-    }
-
-
-        function updateTime() {
-            const now = new Date();
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const months = ['Januari', 'Februari',             'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-const day = days[now.getDay()];
-const date = now.getDate();
-const month = months[now.getMonth()];
-const year = now.getFullYear();
-let hour = now.getHours();
-let minute = now.getMinutes();
-let second = now.getSeconds();
-
-// Padding nol jika waktu kurang dari 10
-hour = hour < 10 ? '0' + hour : hour;
-minute = minute < 10 ? '0' + minute : minute;
-second = second < 10 ? '0' + second : second;
-
-const dateTimeString = `${day}, ${date} ${month} ${year}, ${hour}:${minute}:${second}`;
-
-document.getElementById('datetime').innerText = dateTimeString;
-
-// Update waktu setiap detik
-setTimeout(updateTime, 1000);
-}
-
-// Panggil fungsi untuk menetapkan salam
-setGreeting();
-
-// Panggil fungsi untuk mengupdate waktu
-updateTime();
-</script>
+<!-- End of Widget -->
 
 <!-- JavaScript untuk membuka dan menutup sidebar -->
 <script>
-function toggleSidebar() {
-var sidebar = document.getElementById('sidebar');
-var menuIcon = document.getElementById('menuIcon');
-if (sidebar.style.left === '-240px') {
-    sidebar.style.left = '0';
-} else {
-    sidebar.style.left = '-240px';
-}
-}
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        var menuIcon = document.getElementById('menuIcon');
+        if (sidebar.style.left === '-240px') {
+            sidebar.style.left = '0';
+        } else {
+            sidebar.style.left = '-240px';
+        }
+    }
+
+    // JavaScript untuk menampilkan chart data menggunakan ApexCharts
+    document.addEventListener('DOMContentLoaded', function() {
+        var options = {
+            series: [{
+                name: 'Jumlah Pemain',
+                data: [<?= $jumlahPemain ?>]
+            }, {
+                name: 'Jumlah Game',
+                data: [<?= $jumlahGame ?>]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true,
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10,
+                },
+            },
+            xaxis: {
+                categories: ['Data']
+            },
+            legend: {
+                position: 'bottom',
+                offsetY: 0,
+                labels: {
+                    colors: ['#212121']
+                },
+            },
+            colors: ['#FFB400', '#00E396'],
+            grid: {
+                show: true,
+                borderColor: '#000000',
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
+                },
+                yaxis: {
+                    lines: {
+                        show: true
+                    }
+                }
+            },
+            tooltip: {
+                shared: false,
+                y: {
+                    formatter: function(val) {
+                        return val + " data";
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    });
 </script>
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"></script>
-<!-- Data Tables -->
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
 </body>
 </html>
 

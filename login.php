@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
     $cek = mysqli_num_rows($result);
     if ($cek > 0) {
         $_SESSION['login'] = true;
-        header('location:home.php');
+        header('location:admin.php');
         exit;
     }
      $error = true;  
